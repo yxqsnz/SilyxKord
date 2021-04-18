@@ -39,5 +39,5 @@ jobs:
         name: "Upload Silyx JAR"
         with:
          name: Upload Silyx Jar
-         path: build/libs/Silyx.jar
+         path: build/libs/*.jar
  
