@@ -18,30 +18,34 @@ class RandomWaifuCommand: TextCommand(Options) {
     override suspend fun exec(context: CommandContext) {
 
         with(context) {
-            message.channel.type()
+
             var waifuType = "waifu"
             var sw = "sfw"
             if (args.isNotEmpty()) {
                 waifuType = args[0]
                 if (args.size > 1 && args[1] == "--nsfw")
                     sw = "nsfw"
+                else
+                    message.channel.type()
+
             }
             val url = "https://waifu.pics/api/$sw/$waifuType"
             val res = requests.get(url)
             @Suppress("BlockingMethodInNonBlockingContext")
             val requestBody = res.body!!.string()
-            val result = requestBody.let { Klaxon().parse<Api>(it) }
+
             val error = when (res.code) {
                 404 -> "waifu não encontrada."
                 429 -> "Estou buscando muitas waifu agora.Tente Novamente mais tarde."
                 403 -> "Não tenho permissão para buscar uma waifu agora."
                 else -> "Erro desconhecido."
             }
-
-            if (!res.isSuccessful) {
+            if (!res.isSuccessful || res.code != 200) {
                 message.reply { content = "Ops, Ocorreu um erro ao buscar a sua waifu. Erro: $error" }
                 return
             }
+            val result = requestBody.let { Klaxon().parse<Api>(it) }
+
 
 
             if (sw == "nsfw")
@@ -57,7 +61,7 @@ class RandomWaifuCommand: TextCommand(Options) {
 
                         color = Color(255, 66, 77)
                     }
-                    message.channel.typeUntil(Instant.now())
+                   
                 }catch (e: Exception) {}
             else
                 message.reply {
