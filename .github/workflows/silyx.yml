@@ -36,8 +36,8 @@ jobs:
         
         
       - uses: actions/upload-artifact@v2
-        name: "Upload Silyx JAR"
+        name: "Upload Silyx jar."
         with:
-         name: Upload Silyx Jar
+         name: Silyx Jar
          path: build/libs/*.jar
  
