@@ -1,3 +1,3 @@
 
-rootProject.name = "Silyx_v1"
+rootProject.name = "SilyxKord"
 

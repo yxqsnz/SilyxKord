@@ -4,30 +4,13 @@ import dev.kord.common.Color
 import dev.kord.core.behavior.reply
 import dev.yxqsnz.silyx.command.handler.CommandContext
 import dev.yxqsnz.silyx.command.handler.TextCommand
-import java.text.CharacterIterator
-import java.text.StringCharacterIterator
+import dev.yxqsnz.utils.humanizeBytes as b
 
 
-fun b(bytes: Long): String? {
-    val absB = if (bytes == Long.MIN_VALUE) Long.MAX_VALUE else Math.abs(bytes)
-    if (absB < 1024) {
-        return "$bytes B"
-    }
-    var value = absB
-    val ci: CharacterIterator = StringCharacterIterator("KMGTPE")
-    var i = 40
-    while (i >= 0 && absB > 0xfffccccccccccccL shr i) {
-        value = value shr 10
-        ci.next()
-        i -= 10
-    }
-    value *= java.lang.Long.signum(bytes).toLong()
-    return String.format("%.1f %ciB", value / 1024.0, ci.current())
-}
 class BotInfoCommand: TextCommand(Options) {
     companion object Options: TextCommand.Options("botinfo") {
-        override val description: String = "BotInfo"
-        override val aliases: List<String> = listOf("stats","status","info")
+        override var description: String? = "BotInfo"
+        override var aliases: List<String> = listOf("stats","status","info")
     }
 
     override suspend fun exec(context: CommandContext) {
@@ -36,10 +19,7 @@ class BotInfoCommand: TextCommand(Options) {
             message.channel.type()
 
             val runtime = Runtime.getRuntime()
-            val mb = 1024 * 1024
             val usedMemory = (runtime.totalMemory() - runtime.freeMemory())
-
-            val totalMemory = runtime.totalMemory()
             val maxMemory = runtime.maxMemory()
             val usedPercentage = (100 * usedMemory) / maxMemory
             val freeMemory = maxMemory - usedMemory

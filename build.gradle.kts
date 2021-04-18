@@ -5,8 +5,12 @@ plugins {
     kotlin("jvm") version "1.4.32"
     application
 }
+tasks.getByName<Zip>("distZip").enabled = false
+val distTar by tasks
+distTar.enabled = false
 
-group = "me.yxqsnz"
+val kordVersion = "0.7.x-SNAPSHOT"
+group = "yxqsnz.night_labs"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -16,9 +20,11 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.kord:kord-core:0.7.x-SNAPSHOT")
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("dev.kord:kord-core:$kordVersion")
     implementation("com.beust:klaxon:5.5")
     testImplementation(kotlin("test-junit"))
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.test {
@@ -30,15 +36,15 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClassName = "SilyxKt"
+    mainClass.set("SilyxKt")
 }
 
 
-
 val fatJar = task("fatJar", type = Jar::class) {
-        println("Compilando o Silyx...Isso pode demorar")
         manifest {
             attributes["Main-Class"] = "SilyxKt"
+            attributes["Kord-Version"] = kordVersion
+
         }
         from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
         with(tasks.jar.get() as CopySpec)
@@ -46,7 +52,16 @@ val fatJar = task("fatJar", type = Jar::class) {
 
 tasks {
     "build" {
-            dependsOn(fatJar)
+        println("Compilando o Silyx...Isso pode demorar")
+         dependsOn(fatJar)
     }
 }
 
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}

@@ -4,19 +4,18 @@ import dev.kord.common.Color
 import dev.kord.core.behavior.reply
 import dev.yxqsnz.silyx.command.handler.CommandContext
 import dev.yxqsnz.silyx.command.handler.TextCommand
-import uai.yxqsnz.silyx.command.handler.*
-import io.ktor.client.*
-import io.ktor.client.request.*
-class CatApi(val file: String)
+import dev.yxqsnz.utils.network.requests
+
 class MeowCommand: TextCommand(Options) {
     companion object Options: TextCommand.Options("cat"){
-        override val description: String = ""
-        override val aliases = listOf("gato","meow")
+        override var description: String? = ""
+        override var aliases = listOf("gato","meow")
     }
+    private class CatApi(val file: String)
     override suspend fun exec(context: CommandContext) {
         with(context) {
             message.channel.type()
-            val requestData: String = HttpClient().get("https://aws.random.cat/meow")
+            val requestData: String = requests.get("https://aws.random.cat/meow").body!!.string()
             val json = Klaxon().parse<CatApi>(requestData)
             message.reply {
                 embed {

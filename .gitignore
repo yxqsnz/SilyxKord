@@ -21,3 +21,14 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+#Intellij IDEA files and gradle.
+.gradle/
+.idea/
+#Bot build
+build/
+#Config file.
+config.json
+#nothing
+setup.ps1
+
+

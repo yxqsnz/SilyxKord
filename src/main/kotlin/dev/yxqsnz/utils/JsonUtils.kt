@@ -1,4 +1,4 @@
-package dev.yxqsnz.silyx.utils
+package dev.yxqsnz.utils
 
 import com.beust.klaxon.Klaxon
 import dev.yxqsnz.silyx.classes.Configuration

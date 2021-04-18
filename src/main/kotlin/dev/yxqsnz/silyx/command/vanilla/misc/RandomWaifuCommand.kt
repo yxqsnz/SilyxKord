@@ -1,16 +1,17 @@
 package dev.yxqsnz.silyx.command.vanilla.misc
-import io.ktor.client.*
-import io.ktor.client.request.*
 import com.beust.klaxon.Klaxon
 import dev.kord.common.Color
+import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.behavior.reply
 import dev.yxqsnz.silyx.command.handler.CommandContext
 import dev.yxqsnz.silyx.command.handler.TextCommand
+import dev.yxqsnz.utils.network.requests
+import java.time.Instant
 
 class RandomWaifuCommand: TextCommand(Options) {
     companion object Options: TextCommand.Options("randomwaifuimage") {
-        override val aliases: List<String> = listOf("rw")
-        override val description: String = "random waifu image"
+        override var aliases: List<String> = listOf("rw")
+        override var description: String? = "random waifu image"
     }
 
     private class Api(val url: String)
@@ -19,31 +20,67 @@ class RandomWaifuCommand: TextCommand(Options) {
         with(context) {
             message.channel.type()
             var waifuType = "waifu"
-            if (args.size == 1)
+            var sw = "sfw"
+            if (args.isNotEmpty()) {
                 waifuType = args[0]
+                if (args.size > 1 && args[1] == "--nsfw")
+                    sw = "nsfw"
+            }
+            val url = "https://waifu.pics/api/$sw/$waifuType"
+            val res = requests.get(url)
+            @Suppress("BlockingMethodInNonBlockingContext")
+            val requestBody = res.body!!.string()
+            val result = requestBody.let { Klaxon().parse<Api>(it) }
+            val error = when (res.code) {
+                404 -> "waifu não encontrada."
+                429 -> "Estou buscando muitas waifu agora.Tente Novamente mais tarde."
+                403 -> "Não tenho permissão para buscar uma waifu agora."
+                else -> "Erro desconhecido."
+            }
 
-            val url = "https://waifu.pics/api/sfw/$waifuType"
-            val client = HttpClient()
-            val requestBody: String = client.get(url)
-            val response = Klaxon().parse<Api>(requestBody)
-
-
-            if (response?.url == null) {
-                message.reply { content = "Ops, Ocorreu um erro ao buscar a sua waifu." }
+            if (!res.isSuccessful) {
+                message.reply { content = "Ops, Ocorreu um erro ao buscar a sua waifu. Erro: $error" }
                 return
             }
-            message.reply {
-                embed {
-                    title = waifuType
-                    description = "**[Clique aqui](${response.url})** caso a imagem não apareça."
-                    image = response.url
-                    author {
-                        icon = message.author?.avatar?.url
-                        name = message.author?.username
+
+
+            if (sw == "nsfw")
+                try {
+                    message.author?.getDmChannel()?.createEmbed {
+                        title = waifuType
+                        description = "**[Clique aqui](${result!!.url})** para fazer o download da imagem."
+                        image = result.url
+                        author {
+                            icon = message.author!!.avatar.url
+                            name = message.author!!.username
+                        }
+                        footer {
+                            icon = message.author!!.avatar.url
+
+                        }
+
+                        color = Color(255, 66, 77)
                     }
-                    color = Color(255,66,77)
+                    message.channel.typeUntil(Instant.now())
+                }catch (e: Exception) {}
+            else
+                message.reply {
+                    embed {
+                        title = waifuType
+                        description = "**[Clique aqui](${result!!.url})** para fazer o download da imagem."
+                        image = result.url
+                        author {
+                            icon = message.author?.avatar?.url
+                            name = message.author?.username
+                        }
+                        color = Color(255,66,77)
+                        footer {
+                            icon = message.author?.avatar?.url
+
+                        }
+                    }
+                    res.body!!.close()
                 }
-            }
 
         }
 
