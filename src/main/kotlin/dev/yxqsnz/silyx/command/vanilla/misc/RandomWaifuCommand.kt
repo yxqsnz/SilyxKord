@@ -54,10 +54,6 @@ class RandomWaifuCommand: TextCommand(Options) {
                             icon = message.author!!.avatar.url
                             name = message.author!!.username
                         }
-                        footer {
-                            icon = message.author!!.avatar.url
-
-                        }
 
                         color = Color(255, 66, 77)
                     }
@@ -74,10 +70,7 @@ class RandomWaifuCommand: TextCommand(Options) {
                             name = message.author?.username
                         }
                         color = Color(255,66,77)
-                        footer {
-                            icon = message.author?.avatar?.url
 
-                        }
                     }
                     res.body!!.close()
                 }
