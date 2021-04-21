@@ -20,13 +20,22 @@ repositories {
 }
 
 dependencies {
+    // Csv reader
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+    // OkHttp para requests
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    // Kord Discord
     implementation("dev.kord:kord-core:$kordVersion")
+    // Klaxon para JSON
     implementation("com.beust:klaxon:5.5")
+    // MongoDb para Banco de dados
+    implementation("org.mongodb:mongodb-driver-sync:4.2.3")
+    //Sla
     testImplementation(kotlin("test-junit"))
+    // Lib padrão do kotlin.
     implementation(kotlin("stdlib-jdk8"))
 }
+
 
 tasks.test {
     useJUnit()

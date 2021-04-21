@@ -15,7 +15,8 @@ fun readConfigFile(): Configuration? {
             {
                "discordToken": "INSIRA_SEU_TOKEN_AQUI",
                "prefix": "?.",
-               "devsID": ["INSIRA_SEU_ID_AQUI"]
+               "devsID": ["INSIRA_SEU_ID_AQUI"],
+               "mongoUri": "INSIRA_SUA_URL_DO_MONGODB_AQUI"
             }
         """.trimIndent()
         )

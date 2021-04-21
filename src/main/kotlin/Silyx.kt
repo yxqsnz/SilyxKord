@@ -8,6 +8,7 @@ import dev.yxqsnz.silyx.events.onReady
 import dev.yxqsnz.silyx.command.handler.CommandExecutor
 import dev.yxqsnz.silyx.command.handler.CommandRegister
 import dev.yxqsnz.silyx.command.handler.CommandManager
+import dev.yxqsnz.database.Client as database
 
 class Silyx(internal var config: Configuration) {
     lateinit var kord: Kord
@@ -16,13 +17,18 @@ class Silyx(internal var config: Configuration) {
     private val commandExecutor: CommandExecutor = CommandExecutor(this)
     suspend fun start() {
         kord = Kord(this.config.discordToken)
-
-
         kord.on<ReadyEvent> {  onReady(this@Silyx) }
 
         CommandRegister(commandManager).registerCommands()
         commandExecutor.startExecutor()
+        try {
+            database.connect(config.mongoUri)
+            logger.success("Conectado ao mongodb com sucesso.")
+        } catch (e: Exception) {
+            logger.error("Ocorreu um erro ao se conectar ao mongodb!")
+            logger.panic(e)
 
+        }
 
         kord.login()
     }
@@ -30,11 +36,13 @@ class Silyx(internal var config: Configuration) {
 }
 suspend fun main() {
     val silyx = readConfigFile()?.let { Silyx(it) }
-    silyx?.logger?.info("Silyx: Um Simples bot para o discord!")
+    silyx?.logger?.info("Eu sou o Silyx um Simples bot para o discord!")
     try {
         silyx!!.start()
-    } catch(e:Exception) {
-        silyx?.logger?.error("Sorry... Ocorreu um erro ao executar o bot!: $e")
+    } catch(e: Exception) {
+        silyx?.logger?.error("Sorry... Ocorreu um erro ao executar o bot!")
+        silyx?.logger?.panic(e)
+
     }
 
 }
