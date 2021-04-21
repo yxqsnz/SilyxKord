@@ -1,6 +1,6 @@
 package dev.yxqsnz.silyx.command.handler
 class CommandManager {
-    val commands = hashSetOf<TextCommand>()
+    private val commands = hashSetOf<TextCommand>()
 
     fun register(command: TextCommand) =
         commands.add(command)

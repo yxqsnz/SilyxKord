@@ -25,6 +25,7 @@ fun readConfigFile(): Configuration? {
     }
     return Klaxon().parse<Configuration>(configFile.readText())
 }
+
 inline fun <reified T> parseJson(rawJson: String): T? {
     return Klaxon().parse<T>(rawJson)
 }

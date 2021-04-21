@@ -1,9 +1,8 @@
 package dev.yxqsnz.silyx.command.handler
-import Silyx
+
 import dev.kord.core.Kord
 import dev.kord.core.entity.Message
-import dev.yxqsnz.silyx.Config
-import dev.yxqsnz.silyx.command.vanilla.misc.PingCommand
+
 
 abstract class TextCommand(val options: Options) {
     abstract suspend fun exec(context: CommandContext)

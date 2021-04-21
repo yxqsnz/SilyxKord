@@ -62,6 +62,7 @@ class RandomWaifuCommand: TextCommand(Options) {
                         color = Color(255, 66, 77)
                     }
                    
+                    
                 }catch (e: Exception) {}
             else
                 message.reply {

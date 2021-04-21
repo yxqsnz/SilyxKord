@@ -1,4 +1,5 @@
 package dev.yxqsnz.silyx.command.vanilla.misc
+
 import dev.kord.core.behavior.edit
 import dev.kord.core.behavior.reply
 import dev.yxqsnz.silyx.command.handler.CommandContext
@@ -15,7 +16,7 @@ class PingCommand: TextCommand(Options){
         val gatewayPing = context.client.gateway.averagePing
 
         val msg = context.message.reply {
-            content = ":ping_pong: **•** Pong!\n:small_orange_diamond: • **DISCORD API**: `...`\n:small_blue_diamond: • **Gateway**: `$gatewayPing` ms"
+            content = ":ping_pong: **•** Pong!\n:small_orange_diamond: • **DISCORD API**: `...`\n:small_blue_diamond: • **Gateway**: `$gatewayPing`"
         }
 
         msg.edit {

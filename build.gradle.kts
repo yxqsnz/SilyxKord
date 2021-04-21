@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation("dev.kord:kord-core:$kordVersion")
     implementation("com.beust:klaxon:5.5")

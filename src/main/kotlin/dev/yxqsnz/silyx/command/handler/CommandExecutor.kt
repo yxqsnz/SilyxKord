@@ -1,6 +1,7 @@
 package dev.yxqsnz.silyx.command.handler
 
 import Silyx
+import dev.kord.common.Color
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
@@ -23,7 +24,7 @@ class CommandExecutor(private val silyx: Silyx) {
         val command = silyx.commandManager[args[0]] ?: return@on
         if (command.options.guildOnly && this.message.getGuildOrNull() == null) {
             message.reply {
-                content = "❌ | Esse comando só pode ser executado em uma  guilda."
+                content = "❌ | Esse comando só pode ser executado em uma guilda."
             }
             return@on
         }
@@ -37,7 +38,11 @@ class CommandExecutor(private val silyx: Silyx) {
         } catch(e: Exception) {
             silyx.logger.error("No comando ${command.options.name}: ${e.message}")
             this.message.reply {
-                content = "❌ | Me desculpe... mas ocorreu um erro ao executar esse comando: `${e.message}`"
+                embed {
+                    title = "❌ | Me desculpe... mas ocorreu um erro ao executar esse comando: `${e.message}`"
+                    color = Color(200,66,77)
+                }
+
             }
 
         }
