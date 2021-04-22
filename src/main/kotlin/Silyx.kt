@@ -14,6 +14,7 @@ class Silyx(internal var config: Configuration) {
     lateinit var kord: Kord
     var logger: Logger = Logger()
     val commandManager: CommandManager = CommandManager()
+    val database = database()
     private val commandExecutor: CommandExecutor = CommandExecutor(this)
     suspend fun start() {
         kord = Kord(this.config.discordToken)

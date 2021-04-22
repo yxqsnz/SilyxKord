@@ -4,7 +4,7 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.*
 
-object Client {
+class Client {
     lateinit var mongoClient: MongoClient
     fun connect(uri: String) {
         val settings = MongoClientSettings.builder()
