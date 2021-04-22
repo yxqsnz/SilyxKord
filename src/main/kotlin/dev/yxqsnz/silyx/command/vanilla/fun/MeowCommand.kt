@@ -2,8 +2,7 @@ package dev.yxqsnz.silyx.command.vanilla.`fun`
 import com.beust.klaxon.Klaxon
 import dev.kord.common.Color
 import dev.kord.core.behavior.reply
-import dev.yxqsnz.silyx.command.handler.CommandContext
-import dev.yxqsnz.silyx.command.handler.TextCommand
+import dev.yxqsnz.classes.command.*
 import dev.yxqsnz.utils.network.requests
 
 class MeowCommand: TextCommand(Options) {

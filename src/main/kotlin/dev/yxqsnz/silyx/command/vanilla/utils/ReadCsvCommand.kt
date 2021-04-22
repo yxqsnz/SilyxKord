@@ -4,8 +4,7 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import dev.kord.common.Color
 import dev.kord.core.behavior.edit
 import dev.kord.core.behavior.reply
-import dev.yxqsnz.silyx.command.handler.CommandContext
-import dev.yxqsnz.silyx.command.handler.TextCommand
+import dev.yxqsnz.classes.command.*
 import dev.yxqsnz.utils.network.requests
 import java.time.Instant
 
@@ -19,7 +18,7 @@ class ReadCsvCommand: TextCommand(Options) {
             result += "${row.joinToString("|").trim()}\n".trimStart()
         }
         if (result.length >= 1019) {
-            result.removeRange(1019,result.length)
+            result.removeRange(1010..result.length)
             result += "..."
         }
         result.trim()

@@ -1,3 +1,4 @@
+// TODO: delay nos comandos.
 package dev.yxqsnz.silyx.command.handler
 
 import Silyx
@@ -5,6 +6,8 @@ import dev.kord.common.Color
 import dev.kord.core.behavior.reply
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
+import dev.yxqsnz.classes.command.*
+import dev.yxqsnz.services.CommandService
 import dev.yxqsnz.services.BlackListService
 
 class CommandExecutor(private val silyx: Silyx) {
@@ -21,7 +24,7 @@ class CommandExecutor(private val silyx: Silyx) {
             this.message,
             args.drop(1)
         )
-        val command = silyx.commandManager[args[0]] ?: return@on
+        val command = CommandService[args[0]] ?: return@on
         if (command.options.guildOnly && this.message.getGuildOrNull() == null) {
             message.reply {
                 content = "❌ | Esse comando só pode ser executado em uma guilda."

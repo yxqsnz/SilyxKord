@@ -3,10 +3,8 @@ import com.beust.klaxon.Klaxon
 import dev.kord.common.Color
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.behavior.reply
-import dev.yxqsnz.silyx.command.handler.CommandContext
-import dev.yxqsnz.silyx.command.handler.TextCommand
+import dev.yxqsnz.classes.command.*
 import dev.yxqsnz.utils.network.requests
-import java.time.Instant
 
 class RandomWaifuCommand: TextCommand(Options) {
     companion object Options: TextCommand.Options("randomwaifuimage") {

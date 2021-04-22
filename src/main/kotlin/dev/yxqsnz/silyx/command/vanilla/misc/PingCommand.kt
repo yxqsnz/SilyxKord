@@ -2,13 +2,12 @@ package dev.yxqsnz.silyx.command.vanilla.misc
 
 import dev.kord.core.behavior.edit
 import dev.kord.core.behavior.reply
-import dev.yxqsnz.silyx.command.handler.CommandContext
-import dev.yxqsnz.silyx.command.handler.TextCommand
+import dev.yxqsnz.classes.command.*
 
 class PingCommand: TextCommand(Options){
     companion object Options: TextCommand.Options("ping") {
         override var description: String? = "Pong"
-        override var aliases: List<String> = listOf("p","pingCommand")
+        override var aliases: List<String> = listOf("p", "latencia", "latency")
     }
 
     override suspend fun exec(context: CommandContext) {

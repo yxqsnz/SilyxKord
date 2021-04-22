@@ -2,8 +2,7 @@ package dev.yxqsnz.silyx.command.vanilla.dev
 
 import dev.kord.common.Color
 import dev.kord.core.behavior.reply
-import dev.yxqsnz.silyx.command.handler.CommandContext
-import dev.yxqsnz.silyx.command.handler.TextCommand
+import dev.yxqsnz.classes.command.*
 import dev.yxqsnz.services.BlackListService
 import java.sql.Timestamp
 
@@ -43,7 +42,7 @@ class XbanCommand: TextCommand(Options) {
                     userId,
                     reason
                 )
-                this.messageReply("O Usuário $userId foi punido com êxito por $reason")
+                reply("O Usuário $userId foi punido com êxito por $reason")
 
             }
             if (listOf("remover", "r", "unb", "desbanir", "ub", "unban").contains(args[0].toLowerCase())) {
@@ -61,7 +60,7 @@ class XbanCommand: TextCommand(Options) {
                     return
                 }
                 BlackListService.removeUser(userId)
-                messageReply("Usuário punição do usuário foi removida com êxito.")
+                reply("Usuário punição do usuário foi removida com êxito.")
             }
 
             if (listOf("ver", "info", "i", "v").contains(args[0].toLowerCase())) {
