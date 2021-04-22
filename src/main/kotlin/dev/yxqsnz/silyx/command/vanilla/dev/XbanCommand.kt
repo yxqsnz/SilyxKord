@@ -31,7 +31,7 @@ class XbanCommand: TextCommand(Options) {
                     return
                 }
                 val userId = args[1]
-                val reason = args[2]
+                val reason = args.drop(0).drop(1).drop(1).joinToString(" ")
                 if(BlackListService.isUserBlackListed(userId)) {
                     message.reply {
                         content = "Esse usuário já está banido do Silyx."
@@ -93,7 +93,7 @@ class XbanCommand: TextCommand(Options) {
                         }
                         field {
                             name = "Banido em"
-                            val timeStamp = Timestamp(user.bannedIn.toLong() * 1000)
+                            val timeStamp = Timestamp(user.bannedIn.toLong())
 
                             value = timeStamp.toLocalDateTime().toString()
                         }

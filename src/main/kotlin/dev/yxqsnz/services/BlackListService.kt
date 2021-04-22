@@ -7,6 +7,7 @@ import dev.yxqsnz.classes.user.BlackListUser
 import org.bson.BsonDocument
 import org.bson.BsonString
 import org.bson.Document
+import org.bson.conversions.Bson
 import org.bson.types.ObjectId
 import java.time.Instant
 
@@ -33,6 +34,12 @@ object BlackListService {
         val user = BlackListUser(userId)
         user.reason = reason
         user.bannedIn = bannedIn
+        blackListCache.add(user)
+    }
+    fun addUserToBlackList(userId: String,reason: String, bannedIn: String = Instant.now().toEpochMilli().toString()) {
+        val user = BlackListUser(userId)
+        user.reason = reason
+        user.bannedIn = bannedIn
         // add to cache
         blackListCache.add(user)
         // add to database
@@ -42,12 +49,7 @@ object BlackListService {
             .append("bannedIn",bannedIn)
 
         this.blackListCollection.insertOne(blacklistUserDocument)
-    }
-    fun addUserToBlackList(userId: String,reason: String, bannedIn: String = Instant.now().toEpochMilli().toString()) {
-        val user = BlackListUser(userId)
-        user.reason = reason
-        user.bannedIn = bannedIn
-        blackListCache.add(user)
+
 
     }
     fun isUserBlackListed(userId: String): Boolean {
