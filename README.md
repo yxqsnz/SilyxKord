@@ -1,4 +1,4 @@
-#AVISO Estou refazendo esse bot com JDA no repositorio: https://github.com/yxqsnz/SilyxBot
+# AVISO Estou refazendo esse bot com JDA no repositorio: https://github.com/yxqsnz/SilyxBot
 # SilyxKord
 um simples bot para o discord
 # como executar? 🤔
